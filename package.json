@@ -1,0 +1,52 @@
+{
+  "name": "flowinpay",
+  "version": "0.1.0",
+  "description": "SDK oficial da FlowinPay — gateway de pagamentos PIX com split automático, saques e webhooks.",
+  "keywords": [
+    "flowinpay",
+    "pix",
+    "pagamentos",
+    "payments",
+    "split",
+    "gateway",
+    "brasil",
+    "webhooks"
+  ],
+  "homepage": "https://app.flowinpay.com.br",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowinpay/flowinpay-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flowinpay/flowinpay-node/issues"
+  },
+  "license": "MIT",
+  "author": "FlowinPay",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}
