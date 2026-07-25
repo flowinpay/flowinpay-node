@@ -34,8 +34,6 @@ export interface CreateChargeInput {
   customerPhone?: string;
   /** Divisão do pagamento entre até 3 recebedores. */
   split?: SplitItem[];
-  /** Opcional — usa a adquirente padrão da conta se omitido. */
-  acquirerId?: number;
 }
 
 export interface Charge {
@@ -48,6 +46,33 @@ export interface Charge {
   qr_code_image: string;
   payment_link_url: string;
   expires_at: string;
+  [key: string]: unknown;
+}
+
+/**
+ * Contestação (MED) aberta contra uma venda.
+ *
+ * A defesa é enviada pela FlowinPay automaticamente — `auto_defense` e
+ * `evidence_sent_at` mostram que isso já aconteceu. `due_at` é o prazo: depois dele,
+ * prova adicional não é mais aceita.
+ */
+export interface Dispute {
+  id: number;
+  external_id: string | null;
+  /** `med` ou `chargeback`. */
+  type: string;
+  /** `open`, `under_review`, `accepted`, `rejected` ou `cancelled`. */
+  status: string;
+  amount: number;
+  currency: string;
+  reason: string | null;
+  description: string | null;
+  resolution: string | null;
+  auto_defense: boolean;
+  evidence_sent_at: string | null;
+  due_at: string | null;
+  resolved_at: string | null;
+  created_at: string | null;
   [key: string]: unknown;
 }
 

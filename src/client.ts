@@ -7,6 +7,7 @@ import type {
   CreateWebhookResponse,
   CreateWithdrawalInput,
   CreateWithdrawalResponse,
+  Dispute,
   FlowinPayOptions,
   Webhook,
   Withdrawal,
@@ -91,7 +92,6 @@ export class FlowinPay {
         customer_tax_id: input.customerTaxId,
         customer_phone: input.customerPhone,
         split: input.split,
-        acquirer_id: input.acquirerId,
       }),
 
     /** Lista cobranças. Requer escopo `charge:read`. */
@@ -133,6 +133,22 @@ export class FlowinPay {
     list: (): Promise<Record<string, unknown>> => this.request('GET', '/transactions'),
     get: (id: number | string): Promise<Record<string, unknown>> =>
       this.request('GET', `/transactions/${id}`),
+  };
+
+  /**
+   * Contestações (MED) abertas contra suas vendas. Requer escopo `dispute:read`.
+   *
+   * Somente leitura, e de propósito: a FlowinPay monta e envia a defesa
+   * automaticamente — você não precisa responder. O que estes métodos dão é
+   * visibilidade: saber que existe uma contestação, o prazo (`due_at`) e como ela
+   * terminou. É o par dos eventos `dispute.*` do webhook.
+   */
+  disputes = {
+    list: (): Promise<{ disputes: Dispute[] } & Record<string, unknown>> =>
+      this.request('GET', '/disputes'),
+
+    get: (id: number | string): Promise<{ dispute: Dispute } & Record<string, unknown>> =>
+      this.request('GET', `/disputes/${id}`),
   };
 
   /** Taxas vigentes. */
